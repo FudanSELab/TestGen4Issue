@@ -1,5 +1,5 @@
-# FastAPIProjectTemplate
-这个是知识图谱组建立FlaskAPI项目的模板
+# TestGen4Issue
+基于LLM和检索增强的故障复现测试用例生成方法，自动化为GitHub Issue生成故障复现测试用例。
 
 ```
 project_root            整个代码项目的根目录
