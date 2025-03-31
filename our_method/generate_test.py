@@ -3,11 +3,12 @@ from tqdm import tqdm
 from utils import get_json_data,switch2commit,extract_bug_context,extract_python_code,get_imports_info
 from generate_prompt import generate_test_prompt_2,generate_test_prompt_3
 from query_gpt import query_llm_5
+from definitions import ROOT_DIR
 from path import TEMP_EXAM_TEST_PATH,RESULT_PATH,ABLATION_PATH
 
 # 读取ramdom_data_id_list
 def get_random_data_ids():
-    file_name = "/home/fdse/wy/RepoCodeEdit/data/random_id_list.txt"
+    file_name =ROOT_DIR + "/data/random_id_list.txt"
     with open(file_name, 'r') as file:
         lines = file.readlines()
     
@@ -15,7 +16,7 @@ def get_random_data_ids():
     return data_ids
 
 def get_repos():
-    file_name = "/home/fdse/wy/RepoCodeEdit/data/repo_names.txt"
+    file_name =ROOT_DIR + "/data/repo_names.txt"
     with open(file_name, 'r') as file:
         lines = file.readlines()
     
@@ -73,29 +74,29 @@ def generate_test_ablation(d):
 
 if __name__ == "__main__":
     repo_names = get_repos()
-    # repo = "pydata/xarray"
-    # temp_exam_test_path = TEMP_EXAM_TEST_PATH + "/" + repo.split('/')[-1] + "/example_test.json"
-    # exam_test_data = get_json_data(temp_exam_test_path)
-    # result_path = ABLATION_PATH + "/no_bug_context/" + repo.split('/')[-1] + "/generated_tests.json"
-    # random_ids = get_random_data_ids()
-    # for d in tqdm(exam_test_data):
-    #     if d['instance_id'] in random_ids:
-    #         temp = d
-    #         # 先读取结果，再一个一个保存，防止出错后数据丢失
-    #         with open(result_path,'r') as f1:
-    #             result = json.load(f1)
+    repo = "pydata/xarray"
+    temp_exam_test_path = TEMP_EXAM_TEST_PATH + "/" + repo.split('/')[-1] + "/example_test.json"
+    exam_test_data = get_json_data(temp_exam_test_path)
+    result_path = ABLATION_PATH + "/no_bug_context/" + repo.split('/')[-1] + "/generated_tests.json"
+    random_ids = get_random_data_ids()
+    for d in tqdm(exam_test_data):
+        if d['instance_id'] in random_ids:
+            temp = d
+            # 先读取结果，再一个一个保存，防止出错后数据丢失
+            with open(result_path,'r') as f1:
+                result = json.load(f1)
 
-    #         imports_info,generated_tests = generate_test_ablation(d)
-    #         temp['imports_info'] = imports_info
-    #         temp['generated_tests'] = generated_tests
-    #         result.append(temp)
-    #         with open(result_path, 'w') as json_file:
-    #             json.dump(result, json_file, indent=4)
+            imports_info,generated_tests = generate_test_ablation(d)
+            temp['imports_info'] = imports_info
+            temp['generated_tests'] = generated_tests
+            result.append(temp)
+            with open(result_path, 'w') as json_file:
+                json.dump(result, json_file, indent=4)
 
-    xxx = 0
-    for repo in repo_names:
-        result_path = ABLATION_PATH + "/no_bug_context/" + repo.split('/')[-1] + "/generated_tests.json"
-        data = get_json_data(result_path)
-        xxx += len(data)
-    print(xxx)
+    # xxx = 0
+    # for repo in repo_names:
+    #     result_path = ABLATION_PATH + "/no_bug_context/" + repo.split('/')[-1] + "/generated_tests.json"
+    #     data = get_json_data(result_path)
+    #     xxx += len(data)
+    # print(xxx)
 

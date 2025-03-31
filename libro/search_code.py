@@ -1,8 +1,9 @@
 import os
 import ast
 import subprocess
+from definitions import ROOT_DIR
 
-REPO_PATH = "/home/fdse/wy/RepoCodeEdit/data/raw_repo_lite"
+REPO_PATH = ROOT_DIR + "/data/raw_repo_lite"
 
 # 获得某个repo克隆下来的repo_path
 def get_repo_path(repo):

@@ -3,12 +3,11 @@ import re
 from tqdm import tqdm
 from search_code import get_repo_all_files,search_code
 from query_gpt import query_llm_5
+from definitions import ROOT_DIR
 
-
-REPO_DATA_PATH = "/home/fdse/wy/RepoCodeEdit/data/SWE-bench_Lite"
-STORE_PATH = "/home/fdse/wy/RepoCodeEdit/data/libro/generated_tests"
-STORE_PATH_NEW = "/home/fdse/wy/RepoCodeEdit/data/libro/new_generated_tests"
-TEST_FILE_DATA_PATH = "/home/fdse/wy/RepoCodeEdit/data/test_generation/temp_data/test_file"
+REPO_DATA_PATH = ROOT_DIR + "/data/SWE-bench_Lite"
+STORE_PATH = ROOT_DIR + "/data/libro_result"
+TEST_FILE_DATA_PATH = ROOT_DIR + "/data/temp_data/test_file"
 
 example_issue_title = "Stack trace and unfriendly error when an env file doesn't exist"
 example_issue_description = f'''

@@ -1,7 +1,8 @@
 import openai
-openai.api_base = "https://openkey.cloud/v1"
-openai.api_key = 'sk-75SrDglyrTzvr8N6Df1f7b0eDc5e412aA6028bF1594272Ab'
+from definitions import ROOT_DIR,OPENAI_API_BASE,OPENAI_API_KEY
 
+openai.api_base = OPENAI_API_BASE
+openai.api_key = OPENAI_API_KEY
 # 对话LLM
 def query_llm(prompt,model_name):
     completion = openai.ChatCompletion.create(

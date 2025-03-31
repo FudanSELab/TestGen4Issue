@@ -1,10 +1,11 @@
 import os
 import ast
 import subprocess
+from definitions import ROOT_DIR
 
 # 获得某个repo克隆下来的repo_path
 def get_repo_path(repo):
-    repo_path = "/home/zqc/RepoCodeEdit/data/swebench-lite/" + repo.split('/')[-1]
+    repo_path = ROOT_DIR + "/data/raw_repo_lite/" + repo.split('/')[-1]
     return repo_path
 
 # 切换某个仓库的状态到某个commit下

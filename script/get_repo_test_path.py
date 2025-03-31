@@ -18,7 +18,6 @@ def get_pytest_test_path(repo_path):
     test_paths.append(test_path)
     return test_paths
     
-    
 if __name__ == "__main__":
     print(1)
     

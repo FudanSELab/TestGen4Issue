@@ -6,6 +6,7 @@ from swebench.harness.constants import PatchType
 import json
 import os
 import subprocess
+from definitions import ROOT_DIR
 
 log_suffix = "20240623"
 model_name = "gpt4"
@@ -104,7 +105,7 @@ if __name__ == "__main__":
     test_bed = "./test_bed"
     temp_dir = "./temp"
     instances = {}
-    with open('/home/fdse/wy/RepoCodeEdit/data/test_generation/result/scikit-learn/generated_test.json','r') as f:
+    with open(ROOT_DIR + '/data/our_method_result/scikit-learn/generated_test.json','r') as f:
         js = json.load(f)[0]
         # 包含多个instance
         instances['task_instances'] = [js]

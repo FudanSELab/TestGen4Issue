@@ -17,14 +17,14 @@ import subprocess
 import ast
 import contextlib
 from utils import get_repo_path
+from definitions import ROOT_DIR,OPENAI_API_BASE,OPENAI_API_KEY
 from path import LOG_PATH,TEMP_TEST_FILE_PATH,TEMP_EXAM_TEST_PATH
 
 
-openai.api_base = "https://openkey.cloud/v1"
-openai_api_key = "sk-C11ltIBbPbJEVXuZD24f9f41C0B64cF9AaA61fC4E9516c30"
+openai.api_base = OPENAI_API_BASE
+openai.api_key = OPENAI_API_KEY
 client = OpenAI(api_key=openai_api_key)
 CONTEXT_SIZE = 13000
-# tokenizer = CodeLlamaTokenizer.from_pretrained('/home/fdse/wy/RepoCodeEdit/data/7f22f0a5f7991355a2c3867923359ec4ed0b58bf')
 # os.environ['http_proxy'] = "http://127.0.0.1:7890"
 # os.environ['https_proxy'] = "https://127.0.0.1:7890"
 
@@ -47,7 +47,7 @@ def get_embedding(content, model="text-embedding-3-small"):
     headers = {
         'Content-Type': 'application/json',
         # 填写OpenKEY生成的令牌/KEY，注意前面的 Bearer 要保留，并且和 KEY 中间有一个空格。
-        'Authorization': 'Bearer sk-75SrDglyrTzvr8N6Df1f7b0eDc5e412aA6028bF1594272Ab'
+        'Authorization': 'Bearer ' + OPENAI_API_KEY
     }
     data = {
         "model": model,

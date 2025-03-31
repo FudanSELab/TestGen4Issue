@@ -1,7 +1,7 @@
 import ast
 from query_gpt import query_llm
 from utils import get_repo_path,switch2commit,get_json_data,extract_imports_and_functions
-
+from definitions import ROOT_DIR
 # 构建prompt，让大模型挑选出最与issue相关的test function
 def generate_prompt(issue_title,function_signatures):
     prompt = f'''
@@ -42,7 +42,7 @@ def choose_function_by_emb(d,emb_result):
     switch2commit(repo_path,commit_id)
     for e in emb_result:
         if e['instance_id'] == instance_id:
-            test_file = "/home/fdse/wy/RepoCodeEdit/data/raw_repo" + e['test_file'].split('swe_bench_temp_wy',1)[1]
+            test_file = ROOT_DIR + "/data/raw_repo" + e['test_file'].split('swe_bench_temp_wy',1)[1]
             imports, function_signatures, function_bodies = extract_imports_and_functions(test_file)
             functions = e['searched_functions'][:3]
             return imports,functions
@@ -63,9 +63,8 @@ if __name__ == "__main__":
         "PASS_TO_PASS": "[\"test_urlfield_clean (forms_tests.field_tests.test_urlfield.URLFieldTest)\", \"test_urlfield_clean_required (forms_tests.field_tests.test_urlfield.URLFieldTest)\", \"test_urlfield_strip_on_none_value (forms_tests.field_tests.test_urlfield.URLFieldTest)\", \"test_urlfield_unable_to_set_strip_kwarg (forms_tests.field_tests.test_urlfield.URLFieldTest)\", \"test_urlfield_widget (forms_tests.field_tests.test_urlfield.URLFieldTest)\", \"test_urlfield_widget_max_min_length (forms_tests.field_tests.test_urlfield.URLFieldTest)\"]",
         "environment_setup_commit": "647480166bfe7532e8c471fef0146e3a17e6c0c9",
     }
-    # test_file = "/home/zqc/RepoCodeEdit/data/swe_bench_temp/django/tests/utils_tests/test_autoreload.py"
     # choose_function_by_llm(example,test_file)
-    emb_result = get_json_data("/home/zqc/wy/RepoCodeEdit/data/test_generation/searched_result_61.json")
+    emb_result = get_json_data(ROOT_DIR + "/data/test_generation/searched_result_61.json")
     imports,functions = choose_function_by_emb(example,emb_result)
     print(imports)
     print('-'*80)

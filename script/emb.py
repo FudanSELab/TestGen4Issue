@@ -17,13 +17,15 @@ import requests
 import subprocess
 import ast
 import contextlib
+from definitions import ROOT_DIR,OPENAI_API_BASE,OPENAI_API_KEY
 
 
-openai.api_base = "https://openkey.cloud/v1"
-openai_api_key = "sk-C11ltIBbPbJEVXuZD24f9f41C0B64cF9AaA61fC4E9516c30"
+openai.api_base = OPENAI_API_BASE
+openai.api_key = OPENAI_API_KEY
+
 client = OpenAI(api_key=openai_api_key)
 CONTEXT_SIZE = 13000
-# tokenizer = CodeLlamaTokenizer.from_pretrained('/home/fdse/wy/RepoCodeEdit/data/7f22f0a5f7991355a2c3867923359ec4ed0b58bf')
+# tokenizer = CodeLlamaTokenizer.from_pretrained(ROOT_DIR + '/data/7f22f0a5f7991355a2c3867923359ec4ed0b58bf')
 
 log_dense_path = f"../log/log_d_{datetime.date.today()}.txt"
 
@@ -43,7 +45,7 @@ def get_embedding(content, model="text-embedding-3-small"):
     headers = {
         'Content-Type': 'application/json',
         # 填写OpenKEY生成的令牌/KEY，注意前面的 Bearer 要保留，并且和 KEY 中间有一个空格。
-        'Authorization': 'Bearer sk-75SrDglyrTzvr8N6Df1f7b0eDc5e412aA6028bF1594272Ab'
+        'Authorization': 'Bearer ' + OPENAI_API_KEY
     }
     data = {
         "model": model,
@@ -160,25 +162,25 @@ def get_function_and_class_names(file_path,commit_id,repo_path):
     return (classes,functions)       
 
 def retrieve_func_from_repo():
-    with open('/home/fdse/wy/RepoCodeEdit/data/test_generation/temp_data/test_file/scikit-learn/temp_data.json','r') as f:
+    with open(ROOT_DIR + '/data/test_generation/temp_data/test_file/scikit-learn/temp_data.json','r') as f:
         print("LOADING JSON FILE...")
         jsons = json.load(f)
         for js in tqdm(jsons):
-            with open('/home/fdse/wy/RepoCodeEdit/data/test_generation/temp_data/example_test/scikit-learn/example_test_1.json','r') as f1:
+            with open(ROOT_DIR + '/data/test_generation/temp_data/example_test/scikit-learn/example_test_1.json','r') as f1:
                 result = json.load(f1)
             # try:
             base_commit = js['base_commit']
             repo_name = js['repo']
-            test_file = "/home/fdse/wy/RepoCodeEdit/data/raw_repo" + js['test_file'].split('swe_bench_temp_wy',1)[1]
+            test_file = ROOT_DIR + "/data/raw_repo" + js['test_file'].split('swe_bench_temp_wy',1)[1]
             title = js['issue_title']
             # temp_test = js.get('temp_test',None)
             # print(temp_test)
-            functions = get_function_and_class_names(test_file,commit_id=base_commit,repo_path='/home/fdse/wy/RepoCodeEdit/data/raw_repo/scikit-learn')[1]
+            functions = get_function_and_class_names(test_file,commit_id=base_commit,repo_path=ROOT_DIR + '/data/raw_repo/scikit-learn')[1]
             retrieved_result = get_retrieved_content(title,functions,k=10)
             # print(retrieved_result)
             js['searched_functions'] = retrieved_result
             result.append(js)
-            with open('/home/fdse/wy/RepoCodeEdit/data/test_generation/temp_data/example_test/scikit-learn/example_test_1.json','w') as f2:
+            with open(ROOT_DIR + '/data/test_generation/temp_data/example_test/scikit-learn/example_test_1.json','w') as f2:
                 json.dump(result,f2,indent=4)
             # # except Exception as e:
             #     # print(e)
