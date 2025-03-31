@@ -1,44 +1,11 @@
 # TestGen4Issue
 基于LLM和检索增强的故障复现测试用例生成方法，自动化为GitHub Issue生成故障复现测试用例。
 
-```
-project_root            整个代码项目的根目录
-│   README.md           对于整个项目的介绍
-│   .gitignore          对于某些文件和目录让Git忽略管理
-│   requirements.txt    声明整个项目依赖的Python库
-│   definitions.py      对于整个项目级别的一些常量进行定义，方便其他地方引用。默认有一个ROOT_DIR的常量是项目根目录。
-│                       在代码中千万不要使用绝对路径，要使用基于ROOT_DIR的相对路径。
-|
-└───app                 这是整个项目的核心代码的目录，一般就用项目名。
-│   │   __init__.py     蓝图注册
-│   └───module1         独立的功能模块接口
-│   │   │   routers.py    当前模块的视图，蓝图创建及路由配置
-│   │   │   ...
-│   └───module2         独立的功能模块接口
-│       │   routers.py    当前模块的视图，蓝图创建及路由配置
-│       │   ...
-│
-└───data                存放项目依赖的数据的目录
-│
-└───doc                 存放项目相关的文档
-│
-└───output              存放项目的输出，里面内容一般不进行Git托管，都是保留在本地的
-│
-└───script              这是目录底下存放一些执行脚本，一般是非常特定的。要和可复用的项目代码区别开来。
-│
-└───test                测试包，里面是与核心模块一一对应的测试文件，目录结构保持一致
-```
+![TestGen4Issue架构图](./images/TestGen4Issue.jpg)
 
-# 项目的README.md的模板
-来源[Github](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
+## 方法简介
 
-# Project Title
-
-One Paragraph of project description goes here
-
-## Getting Started
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+本工作为基于LLM和检索增强的故障复现测试用例生成方法，如上图所示，输入为一个GitHub Issue及其所在代码仓库，输出为复现Issue内容并验证Issue是否解决的故障复现测试用例。具体而言，本方法主要分为四个步骤：报错根函数定位、测试文件选择与import语句抽取、基于相似度计算的测试用例样本选取，以及最终的故障复现测试用例生成。通过这些步骤，本文方法有效获取了与Issue相关的上下文信息，并将其整合在prompt中，增强了大语言模型在故障复现测试用例生成中的表现。
 
 ### Prerequisites
 
